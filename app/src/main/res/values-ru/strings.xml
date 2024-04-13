@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">FilmFinder</string>
+    <string name="main_screen_popular">Популярно</string>
+    <string name="all_movies_screen_title">Все фильмы</string>
+    <string name="main_screen_title">Кинопоиск</string>
+    <string name="filters_screen_top_bar_title">Фильтры</string>
+    <string name="filters_screen_genre">Жанр</string>
+    <string name="filters_screen_country">Страна</string>
+    <string name="filters_screen_apply_button">Применить</string>
+    <string name="null_field">Нет информации</string>
+    <string name="loading">Загрузка</string>
+    <string name="filters_screen_year">Год</string>
+    <string name="no_photo">Нет фото!</string>
+    <string name="no_info_name">Нет информации о названии!</string>
+    <string name="year_error">Год должен быть от 1874 до 2050!</string>
+    <string name="cleared">Очищено</string>
+    <string name="filters_screen_age_rating">Возрастной рейтинг</string>
+    <string name="error">Ошибка</string>
+</resources>
