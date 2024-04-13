@@ -23,12 +23,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.filmfinder.R
 import com.example.filmfinder.data.model.MovieModel
+import com.example.filmfinder.data.source.Constants
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen(
     viewModel: MainViewModel,
-    onClickAllMovies: () -> Unit
+    onNavClickSingleMovie: () -> Unit,
+    onNavClickAllMovies: () -> Unit
 ) {
     val pagerMovies by viewModel.pagerMovies.collectAsState()
 
@@ -42,7 +44,7 @@ fun MainScreen(
                     )
                 },
                 navigationIcon = {
-                    IconButton(onClick = { onClickAllMovies() }) {
+                    IconButton(onClick = { onNavClickAllMovies() }) {
                         Icon(
                             painterResource(id = R.drawable.menu_all_films_icon),
                             contentDescription = "All films",
@@ -71,18 +73,13 @@ fun MainScreen(
                     .padding(horizontal = 32.dp)
             )
 
-            CustomHorizontalPager(pagerMovies = pagerMovies.ifEmpty {
-                listOf(
-                    MovieModel(
-                        id = 4,
-                        name = "Загрузка",
-                        description = "Загрузка",
-                        ratingKp = 9.87f,
-                        posterPreviewUrl = null,
-                        genres = listOf("Загрузка")
-                    )
-                )
-            })
+            CustomHorizontalPager(
+                pagerMovies = pagerMovies.ifEmpty { listOf(Constants.movieTest) },
+                onMovieClicked = { movieModel ->
+                    viewModel.performSetCurrentMovie(movie = movieModel)
+                    onNavClickSingleMovie()
+                }
+            )
         }
     }
 }

@@ -17,4 +17,11 @@
     <string name="cleared">Очищено</string>
     <string name="filters_screen_age_rating">Возрастной рейтинг</string>
     <string name="error">Ошибка</string>
+    <string name="no_info_short">Неизвестно!</string>
+    <string name="movie">Фильм</string>
+    <string name="series">Сериал</string>
+    <string name="description">Описание</string>
+    <string name="reviews">отзывов</string>
+    <string name="actors">Актеры</string>
+    <string name="no_info_description">Нет информации об описании!</string>
 </resources>

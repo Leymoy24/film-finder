@@ -1,6 +1,7 @@
 package com.example.filmfinder.data.repository
 
 import androidx.paging.PagingData
+import com.example.filmfinder.data.model.ActorModel
 import com.example.filmfinder.data.model.FieldModel
 import com.example.filmfinder.data.model.MovieModel
 import com.example.filmfinder.data.network.ApiResult
@@ -16,4 +17,9 @@ interface MainRepository {
 
     fun setFilters(listOfFilters: List<String?>)
     fun getFilters(): List<String?>
+
+    fun setCurrentMovie(movie: MovieModel?)
+    fun getCurrentMovie(): MovieModel?
+
+    fun getActorsPage(): Flow<PagingData<ActorModel>>
 }

@@ -17,4 +17,11 @@
     <string name="cleared">Cleared</string>
     <string name="filters_screen_age_rating">Age rating</string>
     <string name="error">Error</string>
+    <string name="no_info_short">No info!</string>
+    <string name="movie">Movie</string>
+    <string name="series">Series</string>
+    <string name="description">Description</string>
+    <string name="reviews">reviews</string>
+    <string name="actors">Actors</string>
+    <string name="no_info_description">No info about description!</string>
 </resources>

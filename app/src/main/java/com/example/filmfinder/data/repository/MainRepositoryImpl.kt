@@ -3,6 +3,7 @@ package com.example.filmfinder.data.repository
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
+import com.example.filmfinder.data.model.ActorModel
 import com.example.filmfinder.data.model.FieldModel
 import com.example.filmfinder.data.model.MovieModel
 import com.example.filmfinder.data.network.ApiResult
@@ -10,6 +11,7 @@ import com.example.filmfinder.data.network.ApiService
 import com.example.filmfinder.data.network.MovieModelResponseRemote
 import com.example.filmfinder.data.source.Constants
 import com.example.filmfinder.data.source.SessionStorage
+import com.example.filmfinder.data.util.ActorsPagingSource
 import com.example.filmfinder.data.util.MoviesPagingSource
 import kotlinx.coroutines.flow.Flow
 
@@ -71,4 +73,21 @@ class MainRepositoryImpl(
     override fun getFilters(): List<String?> {
         return sessionStorage.listOfFilters
     }
+
+    override fun setCurrentMovie(movie: MovieModel?) {
+        sessionStorage.currentMovie = movie
+    }
+
+    override fun getCurrentMovie(): MovieModel? {
+        return sessionStorage.currentMovie
+    }
+
+    override fun getActorsPage(): Flow<PagingData<ActorModel>> = Pager(
+        config = PagingConfig(
+            pageSize = Constants.pageLimit,
+        ),
+        pagingSourceFactory = {
+            ActorsPagingSource(apiService, sessionStorage)
+        }
+    ).flow
 }

@@ -2,6 +2,7 @@ package com.example.filmfinder.ui.screen.main
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -34,7 +35,8 @@ import com.example.filmfinder.data.model.MovieModel
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun CustomHorizontalPager(
-    pagerMovies: List<MovieModel>
+    pagerMovies: List<MovieModel>,
+    onMovieClicked: (movieModel: MovieModel) -> Unit
 ) {
     val pagerState = rememberPagerState(pageCount = { pagerMovies.size })
 
@@ -62,7 +64,10 @@ fun CustomHorizontalPager(
                         elevation = 15.dp,
                         shape = RoundedCornerShape(10)
                     )
-                    .clip(shape = RoundedCornerShape(10)),
+                    .clip(shape = RoundedCornerShape(10))
+                    .clickable {
+                        onMovieClicked(currMovie)
+                    },
                 loading = {
                     Box(
                         contentAlignment = Alignment.Center,

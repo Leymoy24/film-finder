@@ -12,7 +12,7 @@ interface ApiService {
     suspend fun getMovies(
         @Query("page") page: Int,
         @Query("limit") limit: Int = Constants.pageLimit,
-        @Query("selectFields") selectFields: List<String> = Constants.selectedFields,
+        @Query("selectFields") selectFields: List<String> = Constants.movieSelectedFields,
         @Query("genres.name") genre: String? = null,
         @Query("countries.name") country: String? = null,
         @Query("year") year: String? = null,
@@ -23,4 +23,12 @@ interface ApiService {
     suspend fun getAllPossibleValuesByField(
         @Query("field") field: String
     ): Response<List<FieldModel>>
+
+    @GET(ApiRoutes.ACTORS)
+    suspend fun getActorsByMovieId(
+        @Query("page") page: Int,
+        @Query("limit") limit: Int = Constants.pageLimit,
+        @Query("movies.id") movieId: String,
+        @Query("selectFields") selectFields: List<String> = Constants.actorSelectedFields,
+    ): Response<ActorModelResponseRemote>
 }

@@ -1,6 +1,7 @@
 package com.example.filmfinder.ui.screen.allmovies
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -15,6 +16,7 @@ import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.CircularProgressIndicator
@@ -45,6 +47,7 @@ import com.example.filmfinder.R
 @Composable
 fun AllMoviesScreen(
     viewModel: AllMoviesViewModel,
+    onMovieClicked: () -> Unit,
     onFilterIconClicked: () -> Unit,
     onNavIconClicked: () -> Unit
 ) {
@@ -62,9 +65,9 @@ fun AllMoviesScreen(
                 navigationIcon = {
                     IconButton(onClick = { onNavIconClicked() }) {
                         Icon(
-                            imageVector = Icons.Filled.ArrowBack, //
+                            imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
                             contentDescription = "All films",
-                            modifier = Modifier.size(28.dp)
+                            modifier = Modifier.size(36.dp)
                         )
                     }
                 },
@@ -100,14 +103,6 @@ fun AllMoviesScreen(
                         model = movies[index]?.posterPreviewUrl,
                         contentDescription = "Poster",
                         contentScale = ContentScale.FillWidth,
-                        modifier = Modifier
-                            .fillMaxWidth(1f)
-                            .heightIn(max = 250.dp)
-                            .shadow(
-                                elevation = 15.dp,
-                                shape = RoundedCornerShape(10)
-                            )
-                            .clip(shape = RoundedCornerShape(10)),
                         loading = {
                             Box(
                                 contentAlignment = Alignment.Center,
@@ -137,7 +132,19 @@ fun AllMoviesScreen(
                                     color = MaterialTheme.colorScheme.primary
                                 )
                             }
-                        }
+                        },
+                        modifier = Modifier
+                            .fillMaxWidth(1f)
+                            .heightIn(max = 250.dp)
+                            .shadow(
+                                elevation = 15.dp,
+                                shape = RoundedCornerShape(10)
+                            )
+                            .clip(shape = RoundedCornerShape(10))
+                            .clickable {
+                                viewModel.performSetCurrentMovie(movies[index]!!)
+                                onMovieClicked()
+                            }
                     )
 
                     Text(

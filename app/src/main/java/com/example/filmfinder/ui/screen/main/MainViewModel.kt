@@ -5,12 +5,14 @@ import androidx.lifecycle.viewModelScope
 import com.example.filmfinder.data.model.MovieModel
 import com.example.filmfinder.data.network.ApiResult
 import com.example.filmfinder.domain.GetMoviesUseCase
+import com.example.filmfinder.domain.SetCurrentMovieUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 class MainViewModel(
-    private val getMovies: GetMoviesUseCase
+    private val getMovies: GetMoviesUseCase,
+    private val setCurrentMovie: SetCurrentMovieUseCase
 ) : ViewModel() {
 
     private val _pagerMovies = MutableStateFlow<List<MovieModel>>(listOf())
@@ -20,7 +22,7 @@ class MainViewModel(
         performGetPagerMovies()
     }
 
-    private fun performGetPagerMovies() {
+    private fun performGetPagerMovies(){
         viewModelScope.launch {
 
             when (val result = getMovies()) {
@@ -33,5 +35,9 @@ class MainViewModel(
                 }
             }
         }
+    }
+
+    fun performSetCurrentMovie(movie: MovieModel?){
+        setCurrentMovie(movie = movie)
     }
 }

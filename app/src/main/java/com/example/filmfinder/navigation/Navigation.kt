@@ -13,6 +13,7 @@ import com.example.filmfinder.ui.screen.filters.FiltersViewModel
 import com.example.filmfinder.ui.screen.main.MainScreen
 import com.example.filmfinder.ui.screen.main.MainViewModel
 import com.example.filmfinder.ui.screen.movie.MovieScreen
+import com.example.filmfinder.ui.screen.movie.MovieViewModel
 import com.example.filmfinder.util.ViewModelFactory
 
 @Composable
@@ -32,14 +33,28 @@ fun Navigation(
 
             MainScreen(
                 viewModel = mainViewModel,
-                onClickAllMovies = {
+                onNavClickSingleMovie = {
+                    navController.navigate(Screen.MovieScreen.route)
+                },
+                onNavClickAllMovies = {
                     navController.navigate(Screen.AllMoviesScreen.route)
                 }
             )
         }
+
         composable(route = Screen.MovieScreen.route) {
-            MovieScreen(navController = navController)
+
+            val movieViewModel: MovieViewModel =
+                ViewModelProvider(it, viewModelFactory)[MovieViewModel::class.java]
+
+            MovieScreen(
+                viewModel = movieViewModel,
+                onNavIconClicked = {
+                    navController.popBackStack()
+                }
+            )
         }
+
         composable(route = Screen.AllMoviesScreen.route) {
 
             val allMoviesViewModel: AllMoviesViewModel =
@@ -47,6 +62,9 @@ fun Navigation(
 
             AllMoviesScreen(
                 viewModel = allMoviesViewModel,
+                onMovieClicked = {
+                    navController.navigate(Screen.MovieScreen.route)
+                },
                 onFilterIconClicked = {
                     navController.navigate(Screen.FiltersScreen.route)
                 },

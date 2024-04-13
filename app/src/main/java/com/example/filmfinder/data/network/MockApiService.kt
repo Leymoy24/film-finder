@@ -21,22 +21,7 @@ class MockApiService : ApiService {
     ): Response<MovieModelResponseRemote> {
         return Response.success(
             MovieModelResponseRemote(
-                listOf(
-                    MovieModelSerializable(
-                        id = 3242,
-                        name = "Один дома",
-                        description = "Американское семейство отправляется из Чикаго в Европу, но в спешке сборов бестолковые родители забывают дома... одного из своих детей. Юное создание, однако, не теряется и демонстрирует чудеса изобретательности. И когда в дом залезают грабители, им приходится не раз пожалеть о встрече с милым крошкой.",
-                        rating = RatingModel(kp = 4.5f),
-                        poster = PosterModel(
-                            url = "https://image.openmoviedb.com/kinopoisk-images/6201401/022a58e3-5b9b-411b-bfb3-09fedb700401/orig",
-                            previewUrl = "https://image.openmoviedb.com/kinopoisk-images/6201401/022a58e3-5b9b-411b-bfb3-09fedb700401/x1000"
-                        ),
-                        genres = listOf(
-                            GenreModel("комедия"),
-                            GenreModel("семейный"),
-                        )
-                    )
-                )
+                listOf(Constants.movieRemoteTest)
             )
         )
     }
@@ -65,5 +50,16 @@ class MockApiService : ApiService {
                 Response.error(400, "test_error".toResponseBody("application/json".toMediaTypeOrNull()))
             }
         }
+    }
+
+    override suspend fun getActorsByMovieId(
+        page: Int,
+        limit: Int,
+        movieId: String,
+        selectFields: List<String>
+    ): Response<ActorModelResponseRemote> {
+        return Response.success(
+            ActorModelResponseRemote(docs = Constants.actorsTest)
+        )
     }
 }
