@@ -1,10 +1,14 @@
 package com.example.filmfinder.data.network
 
 import com.example.filmfinder.data.model.FieldModel
-import com.example.filmfinder.data.model.GenreModel
-import com.example.filmfinder.data.model.PosterModel
-import com.example.filmfinder.data.model.RatingModel
+import com.example.filmfinder.data.network.serializable.ActorModelResponseRemote
+import com.example.filmfinder.data.network.serializable.MovieModelResponseRemote
 import com.example.filmfinder.data.source.Constants
+import com.towich.kinopoiskDev.data.network.serializable.EpisodeModelResponseList
+import com.towich.kinopoiskDev.data.network.serializable.EpisodeModelResponseRemote
+import com.towich.kinopoiskDev.data.network.serializable.PosterModelResponseRemote
+import com.towich.kinopoiskDev.data.network.serializable.ReviewModelResponseRemote
+import com.towich.kinopoiskDev.data.network.serializable.SeasonModelResponseRemote
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.ResponseBody.Companion.toResponseBody
 import retrofit2.Response
@@ -27,7 +31,7 @@ class MockApiService : ApiService {
     }
 
     override suspend fun getAllPossibleValuesByField(field: String): Response<List<FieldModel>> {
-        return when(field){
+        return when (field) {
             Constants.genresField -> {
                 Response.success(
                     listOf(
@@ -37,6 +41,7 @@ class MockApiService : ApiService {
                     )
                 )
             }
+
             Constants.countriesField -> {
                 Response.success(
                     listOf(
@@ -46,8 +51,12 @@ class MockApiService : ApiService {
                     )
                 )
             }
+
             else -> {
-                Response.error(400, "test_error".toResponseBody("application/json".toMediaTypeOrNull()))
+                Response.error(
+                    400,
+                    "test_error".toResponseBody("application/json".toMediaTypeOrNull())
+                )
             }
         }
     }
@@ -60,6 +69,62 @@ class MockApiService : ApiService {
     ): Response<ActorModelResponseRemote> {
         return Response.success(
             ActorModelResponseRemote(docs = Constants.actorsTest)
+        )
+    }
+
+    override suspend fun getSeasonsByMovieId(
+        page: Int,
+        limit: Int,
+        movieId: List<String>,
+        selectFields: List<String>
+    ): Response<SeasonModelResponseRemote> {
+        return Response.success(
+            SeasonModelResponseRemote(docs = Constants.seasonTest)
+        )
+    }
+
+    override suspend fun getEpisodes(
+        page: Int,
+        limit: Int,
+        movieId: List<String>,
+        number: List<String>,
+        selectFields: List<String>
+    ): Response<EpisodeModelResponseRemote> {
+        return Response.success(
+            EpisodeModelResponseRemote(docs = listOf(EpisodeModelResponseList(episodes = Constants.episodesTest)))
+        )
+    }
+
+    override suspend fun getReviews(
+        page: Int,
+        limit: Int,
+        movieId: List<String>,
+        selectFields: List<String>
+    ): Response<ReviewModelResponseRemote> {
+        return Response.success(
+            ReviewModelResponseRemote(docs = Constants.reviewsTest)
+        )
+    }
+
+    override suspend fun searchMovie(
+        page: Int,
+        limit: Int,
+        query: String
+    ): Response<MovieModelResponseRemote> {
+        return Response.success(
+            MovieModelResponseRemote(
+                listOf(Constants.movieRemoteTest)
+            )
+        )
+    }
+
+    override suspend fun getImages(
+        page: Int,
+        limit: Int,
+        movieId: List<String>
+    ): Response<PosterModelResponseRemote> {
+        return Response.success(
+            PosterModelResponseRemote(docs = Constants.postersTest)
         )
     }
 }

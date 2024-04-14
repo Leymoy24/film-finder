@@ -25,4 +25,10 @@
     <string name="actors">Актеры</string>
     <string name="no_info_description">Нет информации об описании!</string>
     <string name="no_internet_connection">Нет подключения к интернету!</string>
+    <string name="seasons">Сезоны</string>
+    <string name="season">Сезон</string>
+    <string name="episode">Эпизод</string>
+    <string name="minutes">мин.</string>
+    <string name="Reviews">Отзывы</string>
+    <string name="author">Автор</string>
 </resources>

@@ -4,11 +4,18 @@ import com.example.filmfinder.di.scope.ActivityScope
 import com.example.filmfinder.domain.GetActorsPageUseCase
 import com.example.filmfinder.domain.GetCountriesUseCase
 import com.example.filmfinder.domain.GetCurrentMovieUseCase
+import com.example.filmfinder.domain.GetCurrentSeasonUseCase
+import com.example.filmfinder.domain.GetEpisodesPageUseCase
 import com.example.filmfinder.domain.GetFiltersUseCase
 import com.example.filmfinder.domain.GetGenresUseCase
 import com.example.filmfinder.domain.GetMoviesPageUseCase
 import com.example.filmfinder.domain.GetMoviesUseCase
+import com.example.filmfinder.domain.GetPostersUseCase
+import com.example.filmfinder.domain.GetReviewsPageUseCase
+import com.example.filmfinder.domain.GetSeasonsPageUseCase
+import com.example.filmfinder.domain.SearchMoviesPageUseCase
 import com.example.filmfinder.domain.SetCurrentMovieUseCase
+import com.example.filmfinder.domain.SetCurrentSeasonUseCase
 import com.example.filmfinder.domain.SetFiltersUseCase
 import com.example.filmfinder.util.ViewModelFactory
 import dagger.Module
@@ -29,6 +36,13 @@ object ViewModelModule {
         getCurrentMovie: GetCurrentMovieUseCase,
         setCurrentMovie: SetCurrentMovieUseCase,
         getActorsPage: GetActorsPageUseCase,
+        getSeasonsPage: GetSeasonsPageUseCase,
+        setCurrentSeason: SetCurrentSeasonUseCase,
+        getCurrentSeason: GetCurrentSeasonUseCase,
+        getEpisodesPage: GetEpisodesPageUseCase,
+        getReviewsPage: GetReviewsPageUseCase,
+        searchMoviesPage: SearchMoviesPageUseCase,
+        getPosters: GetPostersUseCase
     ): ViewModelFactory = ViewModelFactory(
         getMovies = getMovies,
         getMoviesPage = getMoviesPage,
@@ -38,6 +52,13 @@ object ViewModelModule {
         getFilters = getFilters,
         getCurrentMovie = getCurrentMovie,
         setCurrentMovie = setCurrentMovie,
-        getActorsPage = getActorsPage
+        getActorsPage = getActorsPage,
+        getSeasonsPage = getSeasonsPage,
+        setCurrentSeason = setCurrentSeason,
+        getCurrentSeason = getCurrentSeason,
+        getEpisodesPage = getEpisodesPage,
+        getReviewsPage = getReviewsPage,
+        searchMoviesPage = searchMoviesPage,
+        getPosters = getPosters
     )
 }

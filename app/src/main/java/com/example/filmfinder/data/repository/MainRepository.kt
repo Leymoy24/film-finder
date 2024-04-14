@@ -2,11 +2,15 @@ package com.example.filmfinder.data.repository
 
 import androidx.paging.PagingData
 import com.example.filmfinder.data.model.ActorModel
+import com.example.filmfinder.data.model.EpisodeModel
 import com.example.filmfinder.data.model.FieldModel
 import com.example.filmfinder.data.model.MovieModel
+import com.example.filmfinder.data.model.ReviewModel
+import com.example.filmfinder.data.model.SeasonModel
 import com.example.filmfinder.data.network.ApiResult
-import com.example.filmfinder.data.network.MovieModelResponseRemote
+import com.example.filmfinder.data.network.serializable.MovieModelResponseRemote
 import com.example.filmfinder.data.room.entity.MovieEntity
+import com.towich.kinopoiskDev.data.network.serializable.PosterModelResponseRemote
 import kotlinx.coroutines.flow.Flow
 
 interface MainRepository {
@@ -23,6 +27,18 @@ interface MainRepository {
     fun getCurrentMovie(): MovieModel?
 
     fun getActorsPage(): Flow<PagingData<ActorModel>>
+    fun getSeasonsPage(): Flow<PagingData<SeasonModel>>
+
+    fun setCurrentSeason(seasonNumber: Int?)
+    fun getCurrentSeason(): Int?
+
+    fun getEpisodesPage(): Flow<PagingData<EpisodeModel>>
+
+    fun getReviewPage(): Flow<PagingData<ReviewModel>>
+
+    fun searchMovieByName(query: String): Flow<PagingData<MovieModel>>
+
+    suspend fun getPosters(): ApiResult<PosterModelResponseRemote>
 
     // database
     suspend fun getMoviesFromDb(): List<MovieEntity>

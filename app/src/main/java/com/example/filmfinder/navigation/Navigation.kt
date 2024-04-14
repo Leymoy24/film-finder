@@ -8,13 +8,17 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.filmfinder.ui.screen.allmovies.AllMoviesScreen
 import com.example.filmfinder.ui.screen.allmovies.AllMoviesViewModel
+import com.example.filmfinder.ui.screen.episodes.EpisodesScreen
+import com.example.filmfinder.ui.screen.episodes.EpisodesViewModel
 import com.example.filmfinder.ui.screen.filters.FiltersScreen
 import com.example.filmfinder.ui.screen.filters.FiltersViewModel
 import com.example.filmfinder.ui.screen.main.MainScreen
 import com.example.filmfinder.ui.screen.main.MainViewModel
 import com.example.filmfinder.ui.screen.movie.MovieScreen
 import com.example.filmfinder.ui.screen.movie.MovieViewModel
+import com.example.filmfinder.ui.screen.reviews.ReviewsScreen
 import com.example.filmfinder.util.ViewModelFactory
+import com.towich.kinopoiskDev.ui.screen.reviews.ReviewsViewModel
 
 @Composable
 fun Navigation(
@@ -49,8 +53,14 @@ fun Navigation(
 
             MovieScreen(
                 viewModel = movieViewModel,
+                onSeasonClicked = {
+                    navController.navigate(Screen.EpisodesScreen.route)
+                },
                 onNavIconClicked = {
                     navController.popBackStack()
+                },
+                onReviewsButtonNavClicked = {
+                    navController.navigate(Screen.ReviewsScreen.route)
                 }
             )
         }
@@ -82,6 +92,31 @@ fun Navigation(
             FiltersScreen(
                 appContext = appContext,
                 viewModel = filtersViewModel,
+                onNavIconClicked = {
+                    navController.popBackStack()
+                }
+            )
+        }
+
+        composable(route = Screen.EpisodesScreen.route) {
+
+            val episodesViewModel: EpisodesViewModel =
+                ViewModelProvider(it, viewModelFactory)[EpisodesViewModel::class.java]
+
+            EpisodesScreen(
+                viewModel = episodesViewModel,
+                onNavIconClicked = {
+                    navController.popBackStack()
+                }
+            )
+        }
+        composable(route = Screen.ReviewsScreen.route) {
+
+            val reviewsViewModel: ReviewsViewModel =
+                ViewModelProvider(it, viewModelFactory)[ReviewsViewModel::class.java]
+
+            ReviewsScreen(
+                viewModel = reviewsViewModel,
                 onNavIconClicked = {
                     navController.popBackStack()
                 }

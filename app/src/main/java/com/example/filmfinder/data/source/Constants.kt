@@ -6,8 +6,12 @@ import com.example.filmfinder.data.model.MovieModel
 import com.example.filmfinder.data.model.PosterModel
 import com.example.filmfinder.data.model.RatingModel
 import com.example.filmfinder.data.model.VotesModel
-import com.example.filmfinder.data.network.ActorModelSerializable
-import com.example.filmfinder.data.network.MovieModelSerializable
+import com.example.filmfinder.data.network.serializable.ActorModelSerializable
+import com.example.filmfinder.data.network.serializable.MovieModelSerializable
+import com.towich.kinopoiskDev.data.network.serializable.EpisodeModelSerializable
+import com.towich.kinopoiskDev.data.network.serializable.PostersModelSerializable
+import com.towich.kinopoiskDev.data.network.serializable.ReviewModelRemote
+import com.towich.kinopoiskDev.data.network.serializable.SeasonModelRemote
 
 object Constants {
     const val API_KEY: String = BuildConfig.API_KEY_KINOPOISK_DEV
@@ -33,6 +37,25 @@ object Constants {
         "id",
         "name",
         "photo"
+    )
+
+    val seasonSelectedFields = listOf(
+        "name",
+        "number",
+        "poster",
+        "episodesCount"
+    )
+
+    val episodesSelectedFields = listOf(
+        "episodes"
+    )
+
+    val reviewsSelectedFields = listOf(
+        "id",
+        "title",
+        "review",
+        "author",
+        "type"
     )
 
     val movieRemoteTest = MovieModelSerializable(
@@ -84,5 +107,42 @@ object Constants {
             name = "Варвара Коробкова",
             photo = null
         ),
+    )
+
+    val seasonTest = listOf(
+        SeasonModelRemote(
+            id = "5353",
+            name = "Спецматериалы",
+            number = 1,
+            poster = null,
+            episodesCount = 3
+        )
+    )
+
+    val episodesTest = listOf(
+        EpisodeModelSerializable(
+            name = "Эпизод 1",
+            number = 1,
+            still = null,
+            duration = 62,
+            description = "Классная серия"
+        )
+    )
+
+    val reviewsTest = listOf(
+        ReviewModelRemote(
+            id = 45325,
+            title = "Review1",
+            type = "Позитивный",
+            review = "отзыв большой и позитивный...",
+            author = "я"
+        )
+    )
+
+    val postersTest = listOf(
+        PostersModelSerializable(
+            url = null,
+            previewUrl = null
+        )
     )
 }

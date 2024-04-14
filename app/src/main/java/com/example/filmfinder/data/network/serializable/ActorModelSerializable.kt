@@ -1,4 +1,4 @@
-package com.example.filmfinder.data.network
+package com.example.filmfinder.data.network.serializable
 
 import com.example.filmfinder.data.model.ActorModel
 

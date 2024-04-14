@@ -34,7 +34,7 @@ object NetworkModule {
                     chain.proceed(request)
                 } catch (e: SocketTimeoutException) {
                     // Обработка исключения
-                    throw IOException("Превышено время ожидания ответа от сервера", e)
+                    throw java.io.IOException("Превышено время ожидания ответа от сервера", e)
                 }
             }
             .connectTimeout(15, TimeUnit.SECONDS)

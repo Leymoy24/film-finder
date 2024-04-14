@@ -15,6 +15,7 @@ import com.example.filmfinder.data.source.SessionStorage
 class MoviesPagingSource(
     private val apiService: ApiService,
     private val sessionStorage: SessionStorage,
+    private val query: String? = null,
     private val movieDao: MovieDao,
     private val connectivityManager: ConnectivityManager,
     private val context: Context
@@ -30,13 +31,21 @@ class MoviesPagingSource(
         val page = params.key ?: 1
         try {
             if (isInternetAvailable()) {
-                val response = apiService.getMovies(
-                    page = page,
-                    genre = sessionStorage.listOfFilters[0],
-                    country = sessionStorage.listOfFilters[1],
-                    year = sessionStorage.listOfFilters[2],
-                    age = sessionStorage.listOfFilters[3],
-                )
+                val response = if (query == null) {
+                    apiService.getMovies(
+                        page = page,
+                        genre = sessionStorage.listOfFilters[0],
+                        country = sessionStorage.listOfFilters[1],
+                        year = sessionStorage.listOfFilters[2],
+                        age = sessionStorage.listOfFilters[3],
+                    )
+                }
+                else {
+                    apiService.searchMovie(
+                        page = page,
+                        query = query
+                    )
+                }
 
                 if (movieDao.getMoviesCount() > 40) movieDao.deleteAllMovies()
 
