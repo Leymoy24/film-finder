@@ -1,4 +1,4 @@
-package com.example.filmfinder.ui.screen.movie.components
+package com.example.filmfinder.ui.screen.movie.component
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background

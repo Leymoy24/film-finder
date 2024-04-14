@@ -1,4 +1,4 @@
-package com.example.filmfinder.ui.screen.filters
+package com.example.filmfinder.ui.screen.filters.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable

@@ -22,8 +22,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.filmfinder.R
-import com.example.filmfinder.data.model.MovieModel
 import com.example.filmfinder.data.source.Constants
+import com.example.filmfinder.ui.screen.main.component.CustomHorizontalPager
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

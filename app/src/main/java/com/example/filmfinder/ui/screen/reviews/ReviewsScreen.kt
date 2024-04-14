@@ -93,15 +93,16 @@ fun ReviewsScreen(
                         ),
                     verticalArrangement = Arrangement.SpaceBetween
                 ) {
-                    Box(modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(start = 20.dp, end = 20.dp, top = 20.dp)
-                    ){
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(start = 20.dp, end = 20.dp, top = 20.dp)
+                    ) {
                         val textTitle = reviews[index]?.title ?: stringResource(id = R.string.no_info_short)
                         Text(
-                            text = if(textTitle == "") stringResource(id = R.string.no_info_short) else textTitle,
+                            text = if (textTitle == "") stringResource(id = R.string.no_info_short) else textTitle,
                             color = MaterialTheme.colorScheme.primary,
-                            style = MaterialTheme.typography.titleSmall,
+                            style = MaterialTheme.typography.titleMedium,
                             fontWeight = FontWeight.Bold,
                             overflow = TextOverflow.Ellipsis
                         )
@@ -113,14 +114,15 @@ fun ReviewsScreen(
                         modifier = Modifier.padding(start = 20.dp, end = 20.dp, top = 10.dp)
                     )
 
-                    Box(modifier = Modifier
-                        .fillMaxWidth()
-                        .fillMaxHeight(0.8f)
-                        .padding(start = 20.dp, end = 20.dp, top = 10.dp)
-                    ){
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .fillMaxHeight(0.8f)
+                            .padding(start = 20.dp, end = 20.dp, top = 10.dp)
+                    ) {
                         val textReview = reviews[index]?.review ?: stringResource(id = R.string.no_info_short)
                         Text(
-                            text = if(textReview == "") stringResource(id = R.string.no_info_short) else textReview,
+                            text = if (textReview == "") stringResource(id = R.string.no_info_short) else textReview,
                             color = MaterialTheme.colorScheme.primary,
                             style = MaterialTheme.typography.bodySmall,
                             overflow = TextOverflow.Ellipsis
@@ -136,8 +138,9 @@ fun ReviewsScreen(
                     ) {
                         val textAuthor = reviews[index]?.author ?: stringResource(id = R.string.no_info_short)
                         Text(
-                            text = if(textAuthor == "") stringResource(id = R.string.no_info_short) else stringResource(
-                                id = R.string.author) + ": $textAuthor",
+                            text = if (textAuthor == "") stringResource(id = R.string.no_info_short) else stringResource(
+                                id = R.string.author
+                            ) + ": $textAuthor",
                             color = MaterialTheme.colorScheme.primary,
                             style = MaterialTheme.typography.titleMedium,
                             fontWeight = FontWeight.Bold,
@@ -146,19 +149,23 @@ fun ReviewsScreen(
 
                         val textType = reviews[index]?.type ?: stringResource(id = R.string.no_info_short)
 
-                        val painterResource = when(textType){
+                        val painterResource = when (textType) {
                             "Позитивный" -> {
-                                painterResource(id = R.drawable.like_icon)
+                                painterResource(id = R.drawable.smile_icon)
                             }
+
+                            "Нейтральный" -> {
+                                painterResource(id = R.drawable.normal_icon)
+                            }
+
                             "Негативный" -> {
-                                painterResource(id = R.drawable.dislike_icon)
+                                painterResource(id = R.drawable.sad_icon)
                             }
-                            else -> {
-                                null
-                            }
+
+                            else -> null
                         }
 
-                        if(painterResource != null){
+                        if (painterResource != null) {
                             Icon(
                                 painter = painterResource,
                                 contentDescription = "Type of review",

@@ -8,7 +8,7 @@ val WhiteF9 = Color(0xFFF9F9F9)
 val Black38 = Color(0xFF383940)
 
 val DarkGray = Color(0xFF161618)
-val Gray = Color(0xFF8E8E93)
+val Gray = Color(0xFF313133)
 
 val DarkBlue = Color(0xFF1C244C)
 val Blue = Color(0xFF223551)

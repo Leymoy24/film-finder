@@ -54,7 +54,7 @@ import coil.compose.SubcomposeAsyncImage
 import com.example.filmfinder.R
 import com.example.filmfinder.data.model.MovieModel
 import com.example.filmfinder.data.source.Constants
-import com.example.filmfinder.ui.screen.movie.components.AwesomeCarousel
+import com.example.filmfinder.ui.screen.movie.component.AwesomeCarousel
 import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
