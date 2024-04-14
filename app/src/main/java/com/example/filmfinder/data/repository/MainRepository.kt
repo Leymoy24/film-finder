@@ -6,6 +6,7 @@ import com.example.filmfinder.data.model.FieldModel
 import com.example.filmfinder.data.model.MovieModel
 import com.example.filmfinder.data.network.ApiResult
 import com.example.filmfinder.data.network.MovieModelResponseRemote
+import com.example.filmfinder.data.room.entity.MovieEntity
 import kotlinx.coroutines.flow.Flow
 
 interface MainRepository {
@@ -22,4 +23,12 @@ interface MainRepository {
     fun getCurrentMovie(): MovieModel?
 
     fun getActorsPage(): Flow<PagingData<ActorModel>>
+
+    // database
+    suspend fun getMoviesFromDb(): List<MovieEntity>
+    suspend fun getMovieByIdFromDb(id: Int): MovieEntity?
+    suspend fun searchMoviesByNameInDb(name: String): List<MovieEntity>
+    suspend fun insertMovieIntoDb(movie: MovieEntity)
+    suspend fun deleteDb(movie: MovieEntity)
+
 }

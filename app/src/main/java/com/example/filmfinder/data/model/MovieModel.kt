@@ -1,5 +1,7 @@
 package com.example.filmfinder.data.model
 
+import com.example.filmfinder.data.room.entity.MovieEntity
+
 data class MovieModel(
     val id: Int,
     val name: String?,
@@ -11,4 +13,20 @@ data class MovieModel(
     val year: Int?,
     val isSeries: Boolean?,
     val votesKp: String?
-)
+) {
+    fun converterToMovieEntity(): MovieEntity {
+        return MovieEntity(
+            id,
+            name,
+            description,
+            ratingKp,
+            posterPreviewUrl,
+            genres,
+            ageRating,
+            year,
+            isSeries,
+            votesKp
+        )
+    }
+}
+

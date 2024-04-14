@@ -24,4 +24,5 @@
     <string name="reviews">reviews</string>
     <string name="actors">Actors</string>
     <string name="no_info_description">No info about description!</string>
+    <string name="no_internet_connection">No internet connection!</string>
 </resources>

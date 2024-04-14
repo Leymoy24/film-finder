@@ -4,5 +4,5 @@ import android.app.Application
 import com.example.filmfinder.di.component.DaggerAppComponent
 
 class App : Application(){
-    val appComponent = DaggerAppComponent.create()
+    val appComponent by lazy { DaggerAppComponent.factory().create(applicationContext) }
 }

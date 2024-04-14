@@ -1,5 +1,7 @@
 package com.example.filmfinder.data.repository
 
+import android.content.Context
+import android.net.ConnectivityManager
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
@@ -9,6 +11,10 @@ import com.example.filmfinder.data.model.MovieModel
 import com.example.filmfinder.data.network.ApiResult
 import com.example.filmfinder.data.network.ApiService
 import com.example.filmfinder.data.network.MovieModelResponseRemote
+import com.example.filmfinder.data.room.dao.CountryDao
+import com.example.filmfinder.data.room.dao.GenreDao
+import com.example.filmfinder.data.room.dao.MovieDao
+import com.example.filmfinder.data.room.entity.MovieEntity
 import com.example.filmfinder.data.source.Constants
 import com.example.filmfinder.data.source.SessionStorage
 import com.example.filmfinder.data.util.ActorsPagingSource
@@ -17,15 +23,25 @@ import kotlinx.coroutines.flow.Flow
 
 class MainRepositoryImpl(
     private val apiService: ApiService,
-    private val sessionStorage: SessionStorage
+    private val sessionStorage: SessionStorage,
+    private val movieDao: MovieDao,
+    private val genreDao: GenreDao,
+    private val countryDao: CountryDao,
+    private val connectivityManager: ConnectivityManager,
+    private val context: Context
 ) : MainRepository {
 
     override suspend fun getMovies(): ApiResult<MovieModelResponseRemote> {
-        val response = apiService.getMovies(page = 1)
-        return if(response.isSuccessful){
-            ApiResult.Success(response.body() ?: MovieModelResponseRemote(docs = listOf()))
-        } else{
-            ApiResult.Error(response.message())
+        return try {
+            val response = apiService.getMovies(page = 1)
+
+            if (response.isSuccessful) {
+                ApiResult.Success(response.body() ?: MovieModelResponseRemote(docs = listOf()))
+            } else {
+                ApiResult.Error(response.message())
+            }
+        } catch (e: Exception) {
+            ApiResult.Error(e.message ?: "unknown error")
         }
     }
 
@@ -34,34 +50,64 @@ class MainRepositoryImpl(
             pageSize = Constants.pageLimit,
         ),
         pagingSourceFactory = {
-            MoviesPagingSource(apiService, sessionStorage)
+            MoviesPagingSource(apiService, sessionStorage, movieDao, connectivityManager, context)
         }
     ).flow
 
     override suspend fun getGenres(): ApiResult<List<FieldModel>> {
-        return if(sessionStorage.listOfGenres != null)
+        return if (sessionStorage.listOfGenres != null)
             ApiResult.Success(sessionStorage.listOfGenres!!)
-        else{
-            val response = apiService.getAllPossibleValuesByField(field = Constants.genresField)
-            if(response.isSuccessful){
-                sessionStorage.listOfGenres = response.body()
-                ApiResult.Success(response.body() ?: listOf())
-            } else{
-                ApiResult.Error(response.message())
+        else {
+            try {
+                val response = apiService.getAllPossibleValuesByField(field = Constants.genresField)
+                if (response.isSuccessful) {
+                    val genres = response.body() ?: emptyList()
+                    sessionStorage.listOfGenres = genres
+                    genres.forEach { genreDao.insertGenre(it.convertToGenreEntity()) }
+                    ApiResult.Success(response.body() ?: listOf())
+                } else {
+                    if (genreDao.getGenresCount() > 0) {
+                        ApiResult.Success(genreDao.getAllGenres().map { it.convertToFieldModel() })
+                    } else {
+                        ApiResult.Error(response.message())
+                    }
+                }
+            } catch (e: Exception) {
+                if (genreDao.getGenresCount() > 0) {
+                    ApiResult.Success(genreDao.getAllGenres().map { it.convertToFieldModel() })
+                } else {
+                    ApiResult.Error(e.message ?: "unknown error")
+                }
             }
         }
     }
 
+
     override suspend fun getCountries(): ApiResult<List<FieldModel>> {
-        return if(sessionStorage.listOfCountries != null)
+        return if (sessionStorage.listOfCountries != null)
             ApiResult.Success(sessionStorage.listOfCountries!!)
-        else{
-            val response = apiService.getAllPossibleValuesByField(field = Constants.countriesField)
-            if(response.isSuccessful){
-                sessionStorage.listOfCountries = response.body()
-                ApiResult.Success(response.body() ?: listOf())
-            } else{
-                ApiResult.Error(response.message())
+        else {
+            try {
+                val response =
+                    apiService.getAllPossibleValuesByField(field = Constants.countriesField)
+                if (response.isSuccessful) {
+                    val countries = response.body() ?: emptyList()
+                    sessionStorage.listOfCountries = countries
+                    countries.forEach { countryDao.insertCountry(it.convertToCountryEntity()) }
+                    ApiResult.Success(response.body() ?: listOf())
+                } else {
+                    if (countryDao.getCountriesCount() > 0) {
+                        ApiResult.Success(countryDao.getAllCountries().map { it.convertToFieldModel() })
+                    } else {
+                        ApiResult.Error(response.message())
+                    }
+                }
+            } catch (e: Exception) {
+                if (countryDao.getCountriesCount() > 0) {
+                    ApiResult.Success(countryDao.getAllCountries().map { it.convertToFieldModel() })
+                } else {
+                    ApiResult.Error(e.message ?: "unknown error")
+                }
             }
         }
     }
@@ -90,4 +136,24 @@ class MainRepositoryImpl(
             ActorsPagingSource(apiService, sessionStorage)
         }
     ).flow
+
+    override suspend fun getMoviesFromDb(): List<MovieEntity> {
+        return movieDao.getAllMovies(Constants.pageLimit, Constants.pageLimit)
+    }
+
+    override suspend fun getMovieByIdFromDb(id: Int): MovieEntity? {
+        return movieDao.getMovieById(id)
+    }
+
+    override suspend fun searchMoviesByNameInDb(name: String): List<MovieEntity> {
+        return movieDao.searchMoviesByName(name)
+    }
+
+    override suspend fun insertMovieIntoDb(movie: MovieEntity) {
+        movieDao.insertMovie(movie)
+    }
+
+    override suspend fun deleteDb(movie: MovieEntity) {
+        movieDao.deleteAllMovies()
+    }
 }

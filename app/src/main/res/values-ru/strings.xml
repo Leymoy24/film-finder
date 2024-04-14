@@ -24,4 +24,5 @@
     <string name="reviews">отзывов</string>
     <string name="actors">Актеры</string>
     <string name="no_info_description">Нет информации об описании!</string>
+    <string name="no_internet_connection">Нет подключения к интернету!</string>
 </resources>
