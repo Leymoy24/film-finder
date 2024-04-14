@@ -1,6 +1,7 @@
 package com.example.filmfinder.ui.screen.main
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
@@ -39,7 +40,7 @@ fun MainScreen(
             CenterAlignedTopAppBar(
                 title = {
                     Text(
-                        text = stringResource(id = R.string.main_screen_title),
+                        text = stringResource(id = R.string.main_screen_popular),
                         fontWeight = FontWeight.Bold
                     )
                 },
@@ -63,15 +64,7 @@ fun MainScreen(
             modifier = Modifier
                 .verticalScroll(state = rememberScrollState())
         ) {
-            Text(
-                text = stringResource(id = R.string.main_screen_popular),
-                style = MaterialTheme.typography.titleLarge,
-                color = MaterialTheme.colorScheme.onSurface,
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier
-                    .padding(scaffoldPadding)
-                    .padding(horizontal = 32.dp)
-            )
+            Spacer(modifier = Modifier.padding(scaffoldPadding))
 
             CustomHorizontalPager(
                 pagerMovies = pagerMovies.ifEmpty { listOf(Constants.movieTest) },

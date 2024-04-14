@@ -42,7 +42,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.filmfinder.R
@@ -99,6 +98,14 @@ fun FiltersScreen(
                 rangeList[0].toFloat()..rangeList[1].toFloat()
             } else
                 0f..18f
+        )
+    }
+
+    var chosenIsSeries by remember {
+        mutableStateOf(
+            if (listOfChosenFilters[4] != null) {
+                listOfChosenFilters[4]!!
+            } else "All"
         )
     }
 
@@ -187,6 +194,20 @@ fun FiltersScreen(
                     isLoading = uiState is ScreenUiState.Loading,
                     onChipClick = { chip ->
                         chosenCountry = chip.name
+                    }
+                )
+
+                // Type of content
+                FilterComponent(
+                    title = "Тип",
+                    listOfChips = listOf(ChipModel("Фильмы"), ChipModel("Сериалы")),
+                    modifier = Modifier
+                        .padding(top = 20.dp),
+                    chosenChip = ChipModel(chosenIsSeries),
+                    isFiltersShowsOnStart = false,
+                    isLoading = false,
+                    onChipClick = { chip ->
+                        chosenIsSeries = chip.name
                     }
                 )
 
@@ -279,7 +300,8 @@ fun FiltersScreen(
                         chosenGenre,
                         chosenCountry,
                         chosenYear,
-                        "${chosenAge.start.roundToInt()}-${chosenAge.endInclusive.roundToInt()}"
+                        "${chosenAge.start.roundToInt()}-${chosenAge.endInclusive.roundToInt()}",
+                        if (chosenIsSeries == "Сериалы") "true" else "false"
                     ).map { if (it == "All" || it == "") null else it }
 
                     viewModel.applyFilters(listOfFilters)

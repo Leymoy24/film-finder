@@ -34,7 +34,7 @@ class FiltersViewModel(
         performGetCountries()
     }
 
-    private fun performGetGenres(){
+    private fun performGetGenres() {
         viewModelScope.launch {
             _uiState.value = ScreenUiState.Loading
 
@@ -51,7 +51,7 @@ class FiltersViewModel(
         }
     }
 
-    private fun performGetCountries(){
+    private fun performGetCountries() {
         viewModelScope.launch {
             _uiState.value = ScreenUiState.Loading
 
@@ -68,7 +68,7 @@ class FiltersViewModel(
         }
     }
 
-    fun applyFilters(listOfFilters: List<String?>){
+    fun applyFilters(listOfFilters: List<String?>) {
         setFilters(listOfFilters = listOfFilters)
     }
 

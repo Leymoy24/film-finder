@@ -7,7 +7,7 @@ plugins {
     id("kotlinx-serialization")
     id("kotlin-kapt")
     id("kotlin-parcelize")
-    id("com.google.devtools.ksp") version "1.9.10-1.0.13"
+    id("com.google.devtools.ksp") version "1.9.23-1.0.19"
 }
 
 android {
@@ -115,4 +115,7 @@ dependencies {
     ksp("androidx.room:room-compiler:2.6.1")
     ksp("androidx.lifecycle:lifecycle-common:2.7.0")
     annotationProcessor("androidx.room:room-compiler:2.6.1")
+
+    //Mockito
+    testImplementation("org.mockito:mockito-core:3.11.2")
 }

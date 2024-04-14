@@ -80,7 +80,7 @@ fun AllMoviesScreen(
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(top = 5.dp, start = 20.dp, end = 5.dp),
+                            .padding(top = 5.dp, start = 15.dp, end = 15.dp, bottom = 15.dp),
                         horizontalArrangement = Arrangement.SpaceBetween,
                         verticalAlignment = Alignment.CenterVertically
                     ) {
@@ -88,6 +88,8 @@ fun AllMoviesScreen(
                         var active by remember { mutableStateOf(false) }
 
                         DockedSearchBar(
+                            modifier = Modifier
+                                .fillMaxWidth(),
                             query = searchQuery,
                             onQueryChange = { newSearchQuery ->
                                 viewModel.setSearch(query = newSearchQuery)
@@ -97,6 +99,7 @@ fun AllMoviesScreen(
                                 if (searchQuery.replace("\\s".toRegex(), "").isNotEmpty()) {
                                     viewModel.insertQuery(QueryEntity(id = null, query = searchQuery))
                                 }
+                                active = false
                             },
                             active = active,
                             onActiveChange = { active = it },
@@ -155,9 +158,14 @@ fun AllMoviesScreen(
                             }
                         }
                         BackHandler {
-                            viewModel.insertQuery(QueryEntity(id = null, query = searchQuery))
-                            viewModel.toggleIsSearchShowing()
+                            if (searchQuery.replace("\\s".toRegex(), "").isNotEmpty()) {
+                                viewModel.insertQuery(QueryEntity(id = null, query = searchQuery))
+                            }
                             viewModel.setSearch("")
+                            if (!active) {
+                                viewModel.toggleIsSearchShowing()
+                            }
+                            active = false
                         }
                     }
 

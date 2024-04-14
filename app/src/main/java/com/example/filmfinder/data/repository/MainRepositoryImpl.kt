@@ -122,6 +122,7 @@ class MainRepositoryImpl(
         }
     }
 
+
     override fun setFilters(listOfFilters: List<String?>) {
         sessionStorage.listOfFilters = listOfFilters
     }

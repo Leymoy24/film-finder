@@ -19,6 +19,7 @@ object Constants {
 
     const val genresField = "genres.name"
     const val countriesField = "countries.name"
+    const val typesOfContentField = "isSeries"
 
     val movieSelectedFields = listOf(
         "id",
