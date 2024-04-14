@@ -17,7 +17,9 @@ import com.example.filmfinder.data.network.serializable.MovieModelResponseRemote
 import com.example.filmfinder.data.room.dao.CountryDao
 import com.example.filmfinder.data.room.dao.GenreDao
 import com.example.filmfinder.data.room.dao.MovieDao
+import com.example.filmfinder.data.room.dao.QueryDao
 import com.example.filmfinder.data.room.entity.MovieEntity
+import com.example.filmfinder.data.room.entity.QueryEntity
 import com.example.filmfinder.data.source.Constants
 import com.example.filmfinder.data.source.SessionStorage
 import com.example.filmfinder.data.util.ActorsPagingSource
@@ -34,6 +36,7 @@ class MainRepositoryImpl(
     private val movieDao: MovieDao,
     private val genreDao: GenreDao,
     private val countryDao: CountryDao,
+    private val queryDao: QueryDao,
     private val connectivityManager: ConnectivityManager,
     private val context: Context
 ) : MainRepository {
@@ -229,5 +232,25 @@ class MainRepositoryImpl(
 
     override suspend fun deleteDb(movie: MovieEntity) {
         movieDao.deleteAllMovies()
+    }
+
+    override suspend fun getAllQueries(): List<QueryEntity> {
+        return queryDao.getAllQueries()
+    }
+
+    override suspend fun insertQuery(query: QueryEntity) {
+        queryDao.insertQuery(query)
+    }
+
+    override suspend fun deleteFirstQuery() {
+        queryDao.deleteFirstQuery()
+    }
+
+    override suspend fun getQueriesCount(): Int {
+        return queryDao.getQueriesCount()
+    }
+
+    override suspend fun shiftIds() {
+        queryDao.shiftIds()
     }
 }

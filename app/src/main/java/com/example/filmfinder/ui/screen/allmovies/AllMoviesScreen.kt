@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -22,7 +21,7 @@ import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
-import androidx.compose.material.icons.filled.Refresh
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.CircularProgressIndicator
@@ -55,6 +54,7 @@ import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import coil.compose.SubcomposeAsyncImage
 import com.example.filmfinder.R
+import com.example.filmfinder.data.room.entity.QueryEntity
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -68,6 +68,7 @@ fun AllMoviesScreen(
     val searchQuery by viewModel.search.collectAsState()
     val searchedMovies = viewModel.searchedMovies.collectAsLazyPagingItems()
     val showSearchBar by viewModel.isSearchShowing.collectAsState()
+    val queries by viewModel.queries.collectAsState()
 
     Scaffold(
         topBar = {
@@ -84,19 +85,7 @@ fun AllMoviesScreen(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
 
-
                         var active by remember { mutableStateOf(false) }
-                        val searchHistory = listOf(
-                            "Один",
-                            "Пираты карибского моря",
-                            "аниме",
-                            "Ирония судьбы",
-                            "Дракула",
-                            "Зеркало",
-                            "Холоп",
-                            "Сердце",
-                            "Сказка"
-                        )
 
                         DockedSearchBar(
                             query = searchQuery,
@@ -105,6 +94,9 @@ fun AllMoviesScreen(
                             },
                             onSearch = { newQuery ->
                                 println("Performing search on query: $newQuery")
+                                if (searchQuery.replace("\\s".toRegex(), "").isNotEmpty()) {
+                                    viewModel.insertQuery(QueryEntity(id = null, query = searchQuery))
+                                }
                             },
                             active = active,
                             onActiveChange = { active = it },
@@ -126,30 +118,35 @@ fun AllMoviesScreen(
                                                 if (searchQuery.isEmpty()) {
                                                     active = false
                                                     viewModel.toggleIsSearchShowing()
+                                                } else {
+                                                    if (searchQuery.replace("\\s".toRegex(), "").isNotEmpty()) {
+                                                        viewModel.insertQuery(QueryEntity(id = null, query = searchQuery))
+                                                    }
                                                 }
                                             }
                                         ) {
                                             Icon(
-                                                painterResource(id = R.drawable.history_icon),
+                                                imageVector = Icons.Filled.Close,
                                                 contentDescription = "Close"
                                             )
                                         }
                                     }
                                 }
-                            }
+                            },
                         ) {
                             LazyColumn(
                                 modifier = Modifier
-                                    .height(240.dp)
                                     .fillMaxWidth()
+                                    .heightIn(max = 240.dp)
+
                             ) {
-                                items(searchHistory.takeLast(8)) { item ->
+                                items(queries.reversed().takeLast(20)) { item ->
                                     ListItem(
-                                        modifier = Modifier.clickable { viewModel.setSearch(item) },
-                                        headlineContent = { Text(text = item) },
+                                        modifier = Modifier.clickable { viewModel.setSearch(item.query.toString()) },
+                                        headlineContent = { Text(text = item.query.toString()) },
                                         leadingContent = {
                                             Icon(
-                                                imageVector = Icons.Filled.Refresh,
+                                                painterResource(id = R.drawable.history_icon),
                                                 contentDescription = null
                                             )
                                         }
@@ -158,13 +155,13 @@ fun AllMoviesScreen(
                             }
                         }
                         BackHandler {
+                            viewModel.insertQuery(QueryEntity(id = null, query = searchQuery))
                             viewModel.toggleIsSearchShowing()
                             viewModel.setSearch("")
                         }
                     }
 
                 } else {
-                    Spacer(modifier = Modifier.height(54.dp))
                     CenterAlignedTopAppBar(
                         title = {
                             Text(

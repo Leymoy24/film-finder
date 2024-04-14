@@ -6,6 +6,7 @@ import com.example.filmfinder.data.room.dao.GenreDao
 import com.example.filmfinder.data.room.database.MainDatabase
 import com.example.filmfinder.data.room.dao.MovieDao
 import com.example.filmfinder.data.room.dao.MovieFavouriteDao
+import com.example.filmfinder.data.room.dao.QueryDao
 import com.example.filmfinder.di.scope.AppScope
 import dagger.Module
 import dagger.Provides
@@ -40,5 +41,11 @@ object DatabaseModule {
     @AppScope
     fun provideMovieFavouriteDao(mainDatabase: MainDatabase): MovieFavouriteDao {
         return mainDatabase.movieFavouriteDao()
+    }
+
+    @Provides
+    @AppScope
+    fun provideQueryDao(mainDatabase: MainDatabase): QueryDao {
+        return mainDatabase.queryDao()
     }
 }

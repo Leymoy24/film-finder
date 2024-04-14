@@ -8,6 +8,8 @@ import com.example.filmfinder.data.repository.MainRepositoryImpl
 import com.example.filmfinder.data.room.dao.CountryDao
 import com.example.filmfinder.data.room.dao.GenreDao
 import com.example.filmfinder.data.room.dao.MovieDao
+import com.example.filmfinder.data.room.dao.QueryDao
+import com.example.filmfinder.data.sharedpref.SharedPreferences
 import com.example.filmfinder.data.source.SessionStorage
 import com.example.filmfinder.di.scope.AppScope
 import dagger.Module
@@ -24,6 +26,7 @@ object AppModule {
         movieDao: MovieDao,
         genreDao: GenreDao,
         countryDao: CountryDao,
+        queryDao: QueryDao,
         connectivityManager: ConnectivityManager,
         context: Context
     ): MainRepository {
@@ -33,6 +36,7 @@ object AppModule {
             movieDao = movieDao,
             genreDao = genreDao,
             countryDao = countryDao,
+            queryDao = queryDao,
             connectivityManager = connectivityManager,
             context = context
         )
@@ -48,5 +52,11 @@ object AppModule {
     @AppScope
     fun provideConnectivityManager(context: Context): ConnectivityManager {
         return context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+    }
+
+    @Provides
+    @AppScope
+    fun provideSharedPref(context: Context): SharedPreferences {
+        return SharedPreferences(context)
     }
 }

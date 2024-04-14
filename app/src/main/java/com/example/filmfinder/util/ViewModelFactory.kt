@@ -2,6 +2,7 @@ package com.example.filmfinder.util
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.example.filmfinder.domain.DeleteFirstQueryUseCase
 import com.example.filmfinder.domain.GetActorsPageUseCase
 import com.example.filmfinder.domain.GetCountriesUseCase
 import com.example.filmfinder.domain.GetCurrentMovieUseCase
@@ -12,12 +13,16 @@ import com.example.filmfinder.domain.GetGenresUseCase
 import com.example.filmfinder.domain.GetMoviesPageUseCase
 import com.example.filmfinder.domain.GetMoviesUseCase
 import com.example.filmfinder.domain.GetPostersUseCase
+import com.example.filmfinder.domain.GetQueriesCountUseCase
+import com.example.filmfinder.domain.GetQueriesUseCase
 import com.example.filmfinder.domain.GetReviewsPageUseCase
 import com.example.filmfinder.domain.GetSeasonsPageUseCase
 import com.example.filmfinder.domain.SearchMoviesPageUseCase
 import com.example.filmfinder.domain.SetCurrentMovieUseCase
 import com.example.filmfinder.domain.SetCurrentSeasonUseCase
 import com.example.filmfinder.domain.SetFiltersUseCase
+import com.example.filmfinder.domain.SetQueryUseCase
+import com.example.filmfinder.domain.ShiftIdsUseCase
 import com.example.filmfinder.ui.screen.allmovies.AllMoviesViewModel
 import com.example.filmfinder.ui.screen.episodes.EpisodesViewModel
 import com.example.filmfinder.ui.screen.filters.FiltersViewModel
@@ -42,6 +47,11 @@ class ViewModelFactory(
     private val getReviewsPage: GetReviewsPageUseCase,
     private val searchMoviesPage: SearchMoviesPageUseCase,
     private val getPosters: GetPostersUseCase,
+    private val getQueries: GetQueriesUseCase,
+    private val setQuery: SetQueryUseCase,
+    private val deleteFirstQuery: DeleteFirstQueryUseCase,
+    private val getQueriesCount: GetQueriesCountUseCase,
+    private val shiftIds: ShiftIdsUseCase
 ): ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return when {
@@ -67,7 +77,12 @@ class ViewModelFactory(
                     getMovies = getMovies,
                     getMoviesPage = getMoviesPage,
                     setCurrentMovie = setCurrentMovie,
-                    searchMoviesPage = searchMoviesPage
+                    searchMoviesPage = searchMoviesPage,
+                    getQueries = getQueries,
+                    setQuery = setQuery,
+                    deleteFirstQuery = deleteFirstQuery,
+                    getQueriesCount = getQueriesCount,
+                    shiftIds = shiftIds
                 ) as T
             }
 

@@ -10,6 +10,7 @@ import com.example.filmfinder.data.model.SeasonModel
 import com.example.filmfinder.data.network.ApiResult
 import com.example.filmfinder.data.network.serializable.MovieModelResponseRemote
 import com.example.filmfinder.data.room.entity.MovieEntity
+import com.example.filmfinder.data.room.entity.QueryEntity
 import com.towich.kinopoiskDev.data.network.serializable.PosterModelResponseRemote
 import kotlinx.coroutines.flow.Flow
 
@@ -46,5 +47,9 @@ interface MainRepository {
     suspend fun searchMoviesByNameInDb(name: String): List<MovieEntity>
     suspend fun insertMovieIntoDb(movie: MovieEntity)
     suspend fun deleteDb(movie: MovieEntity)
-
+    suspend fun getAllQueries(): List<QueryEntity>
+    suspend fun insertQuery(query: QueryEntity)
+    suspend fun deleteFirstQuery()
+    suspend fun getQueriesCount(): Int
+    suspend fun shiftIds()
 }

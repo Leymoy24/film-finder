@@ -2,6 +2,7 @@ package com.example.filmfinder.di.module
 
 import com.example.filmfinder.data.repository.MainRepository
 import com.example.filmfinder.di.scope.AppScope
+import com.example.filmfinder.domain.DeleteFirstQueryUseCase
 import com.example.filmfinder.domain.GetActorsPageUseCase
 import com.example.filmfinder.domain.GetCountriesUseCase
 import com.example.filmfinder.domain.GetCurrentMovieUseCase
@@ -12,12 +13,16 @@ import com.example.filmfinder.domain.GetGenresUseCase
 import com.example.filmfinder.domain.GetMoviesPageUseCase
 import com.example.filmfinder.domain.GetMoviesUseCase
 import com.example.filmfinder.domain.GetPostersUseCase
+import com.example.filmfinder.domain.GetQueriesCountUseCase
+import com.example.filmfinder.domain.GetQueriesUseCase
 import com.example.filmfinder.domain.GetReviewsPageUseCase
 import com.example.filmfinder.domain.GetSeasonsPageUseCase
 import com.example.filmfinder.domain.SearchMoviesPageUseCase
 import com.example.filmfinder.domain.SetCurrentMovieUseCase
 import com.example.filmfinder.domain.SetCurrentSeasonUseCase
 import com.example.filmfinder.domain.SetFiltersUseCase
+import com.example.filmfinder.domain.SetQueryUseCase
+import com.example.filmfinder.domain.ShiftIdsUseCase
 import dagger.Module
 import dagger.Provides
 
@@ -118,5 +123,35 @@ object DomainModule {
     @AppScope
     fun provideGetPostersUseCase(repository: MainRepository): GetPostersUseCase {
         return GetPostersUseCase(repository = repository)
+    }
+
+    @Provides
+    @AppScope
+    fun provideGetQueriesUseCase(repository: MainRepository): GetQueriesUseCase {
+        return GetQueriesUseCase(repository = repository)
+    }
+
+    @Provides
+    @AppScope
+    fun provideSetQueryUseCase(repository: MainRepository): SetQueryUseCase {
+        return SetQueryUseCase(repository = repository)
+    }
+
+    @Provides
+    @AppScope
+    fun provideDeleteFirstQueryUseCase(repository: MainRepository): DeleteFirstQueryUseCase {
+        return DeleteFirstQueryUseCase(repository = repository)
+    }
+
+    @Provides
+    @AppScope
+    fun provideGetQueriesCountUseCase(repository: MainRepository): GetQueriesCountUseCase {
+        return GetQueriesCountUseCase(repository = repository)
+    }
+
+    @Provides
+    @AppScope
+    fun provideShiftIdsCase(repository: MainRepository): ShiftIdsUseCase {
+        return ShiftIdsUseCase(repository = repository)
     }
 }

@@ -1,6 +1,7 @@
 package com.example.filmfinder.di.module
 
 import com.example.filmfinder.di.scope.ActivityScope
+import com.example.filmfinder.domain.DeleteFirstQueryUseCase
 import com.example.filmfinder.domain.GetActorsPageUseCase
 import com.example.filmfinder.domain.GetCountriesUseCase
 import com.example.filmfinder.domain.GetCurrentMovieUseCase
@@ -11,12 +12,16 @@ import com.example.filmfinder.domain.GetGenresUseCase
 import com.example.filmfinder.domain.GetMoviesPageUseCase
 import com.example.filmfinder.domain.GetMoviesUseCase
 import com.example.filmfinder.domain.GetPostersUseCase
+import com.example.filmfinder.domain.GetQueriesCountUseCase
+import com.example.filmfinder.domain.GetQueriesUseCase
 import com.example.filmfinder.domain.GetReviewsPageUseCase
 import com.example.filmfinder.domain.GetSeasonsPageUseCase
 import com.example.filmfinder.domain.SearchMoviesPageUseCase
 import com.example.filmfinder.domain.SetCurrentMovieUseCase
 import com.example.filmfinder.domain.SetCurrentSeasonUseCase
 import com.example.filmfinder.domain.SetFiltersUseCase
+import com.example.filmfinder.domain.SetQueryUseCase
+import com.example.filmfinder.domain.ShiftIdsUseCase
 import com.example.filmfinder.util.ViewModelFactory
 import dagger.Module
 import dagger.Provides
@@ -42,7 +47,12 @@ object ViewModelModule {
         getEpisodesPage: GetEpisodesPageUseCase,
         getReviewsPage: GetReviewsPageUseCase,
         searchMoviesPage: SearchMoviesPageUseCase,
-        getPosters: GetPostersUseCase
+        getPosters: GetPostersUseCase,
+        getQueries: GetQueriesUseCase,
+        setQuery: SetQueryUseCase,
+        deleteFirstQuery: DeleteFirstQueryUseCase,
+        getQueriesCount: GetQueriesCountUseCase,
+        shiftIds: ShiftIdsUseCase
     ): ViewModelFactory = ViewModelFactory(
         getMovies = getMovies,
         getMoviesPage = getMoviesPage,
@@ -59,6 +69,11 @@ object ViewModelModule {
         getEpisodesPage = getEpisodesPage,
         getReviewsPage = getReviewsPage,
         searchMoviesPage = searchMoviesPage,
-        getPosters = getPosters
+        getPosters = getPosters,
+        getQueries = getQueries,
+        setQuery = setQuery,
+        deleteFirstQuery = deleteFirstQuery,
+        getQueriesCount = getQueriesCount,
+        shiftIds = shiftIds
     )
 }
